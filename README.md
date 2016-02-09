@@ -1,132 +1,178 @@
-#World countries in JSON, CSV and XML.
+#World countries in JSON, CSV, XML and YAML.
+
+[![Downloads](https://img.shields.io/npm/dm/world-countries.svg?style=flat)](https://www.npmjs.com/package/world-countries)
+[![Latest Stable Version](https://img.shields.io/npm/v/world-countries.svg?style=flat)](https://www.npmjs.com/package/world-countries)
+[![Latest Stable Version](https://img.shields.io/packagist/v/mledoze/countries.svg?style=flat)](https://packagist.org/packages/mledoze/countries)
+[![License](https://img.shields.io/packagist/l/mledoze/countries.svg?style=flat)](http://opendatacommons.org/licenses/odbl/1.0/)
+
 ## Countries data
 This repository contains lists of world countries in JSON, CSV and XML. Each line contains the country:
 
- - name
- - native name in its native language (`native-name`)
- - top-level domain (`tld`)
+ - `name`
+ 	 - `common` - common name in english
+ 	 - `official` - official name in english
+ 	 - `native` - list of all native names
+ 	 	- key: three-letter ISO 639-3 language code
+	 	- value: name object
+	 		+ key: official - official name translation
+	 		+ key: common - common name translation
+ - country code top-level domain (`tld`)
  - code ISO 3166-1 alpha-2 (`cca2`)
  - code ISO 3166-1 numeric (`ccn3`)
  - code ISO 3166-1 alpha-3 (`cca3`)
+ - code International Olympic Committee (`cioc`)
  - ISO 4217 currency code(s) (`currency`)
- - calling code(s) (`calling-code`)
+ - calling code(s) (`callingCode`)
  - capital city (`capital`)
- - alternative spellings (`alt-spellings`)
- - relevance
+ - alternative spellings (`altSpellings`)
  - region
  - subregion
- - language(s) in English
- - ISO 639-1 language code(s) (`languagesCodes`)
- - name translations
- - population
+ - list of official languages (`languages`)
+ 	- key: three-letter ISO 639-3 language code
+ 	- value: name of the language in english
+ - list of name translations (`translations`)
+ 	- key: three-letter ISO 639-3 language code
+ 	- value: name object
+ 		+ key: official - official name translation
+ 		+ key: common - common name translation
  - latitude and longitude (`latlng`)
  - name of residents (`demonym`)
+ - landlocked status (`landlocked`)
  - land borders (`borders`)
+ - land area in km² (`area`)
+
+#### Additional data
+The [data](https://github.com/mledoze/countries/tree/master/data) folder contains additional data such as the countries
+GeoJSON outlines and flags in SVG format.
 
 ##Examples
 #####JSON
 ```json
 {
-	"name": "Austria",
-	"nativeName": "Österreich",
+	"name": {
+		"common": "Austria",
+		"official": "Republic of Austria",
+		"native": {
+			"bar": {
+				"official": "Republik Österreich",
+				"common": "Österreich"
+			}
+		}
+	},
 	"tld": [".at"],
 	"cca2": "AT",
 	"ccn3": "040",
 	"cca3": "AUT",
+	"cioc": "AUT",
 	"currency": ["EUR"],
 	"callingCode": ["43"],
 	"capital": "Vienna",
-	"altSpellings": ["AT", "Österreich", "Osterreich", "Oesterreich"],
-	"relevance": "0",
+	"altSpellings": ["AT", "Osterreich", "Oesterreich"],
 	"region": "Europe",
 	"subregion": "Western Europe",
-	"language": ["German"],
-	"languagesCodes": ["de"],
-	"translations": {
-		"de": "Österreich",
-		"en": "Austria",
-		"es": "Austria",
-		"fr": "Autriche",
-		"it": "Austria",
-		"ja": "オーストリア",
-		"nl": "Oostenrijk"
+	"languages": {
+		"bar": "Austro-Bavarian German"
 	},
-	"population": 8501502,
-	"latlng": [47.33333333,13.33333333],
+	"translations": {
+		"cym": {"official": "Republic of Austria", "common": "Awstria"},
+		"deu": {"official": "Republik Österreich", "common": "Österreich"},
+		"fra": {"official": "République d'Autriche", "common": "Autriche"},
+		"hrv": {"official": "Republika Austrija", "common": "Austrija"},
+		"ita": {"official": "Repubblica d'Austria", "common": "Austria"},
+		"jpn": {"official": "オーストリア共和国", "common": "オーストリア"},
+		"nld": {"official": "Republiek Oostenrijk", "common": "Oostenrijk"},
+		"por": {"official": "República da Áustria", "common": "Áustria"},
+		"rus": {"official": "Австрийская Республика", "common": "Австрия"},
+		"spa": {"official": "República de Austria", "common": "Austria"}
+	},
+	"latlng": [47.33333333, 13.33333333],
 	"demonym": "Austrian",
-	"borders": ["CZE", "DEU", "HUN", "ITA", "LIE", "SVK", "SVN", "CHE"]
-}
-
-{
-	"name": "Nigeria",
-	"nativeName": "Nigeria",
-	"tld": [".ng"],
-	"cca2": "NG",
-	"ccn3": "566",
-	"cca3": "NGA",
-	"currency": ["NGN"],
-	"callingCode": ["234"],
-	"capital": "Abuja",
-	"altSpellings": ["NG", "Nijeriya", "Naíjíríà", "Federal Republic of Nigeria"],
-	"relevance": "1.5",
-	"region": "Africa",
-	"subregion": "Western Africa",
-	"language": ["English"],
-	"languagesCodes": ["en"],
-	"translations": {
-		"de": "Nigeria",
-		"en": "Nigeria",
-		"es": "Nigeria",
-		"fr": "Nigéria",
-		"it": "Nigeria",
-		"ja": "ナイジェリア",
-		"nl": "Nigeria"
-	},
-	"population": 173615000,
-	"latlng": [10, 8],
-	"demonym": "Nigerian",
-	"borders": ["BEN", "CMR", "TCD", "NER"]
+	"landlocked": true,
+	"borders": ["CZE", "DEU", "HUN", "ITA", "LIE", "SVK", "SVN", "CHE"],
+	"area": 83871
 }
 ```
+
+#####GeoJSON outline
+See an example for [Germany](https://github.com/mledoze/countries/blob/bb61a1cddfefd09ad5c92ad0a1effbfceba39930/data/deu.geo.json).
+
 #####CSV
 ```csv
-"name";"nativeName";"tld";"cca2";"ccn3";"cca3";"currency";"callingCode";"capital";"altSpellings";"relevance";"region";"subregion";"language";"languagesCodes";"translations";"population";"latlng";"demonym";"borders"
+"name";"tld";"cca2";"ccn3";"cca3";"currency";"callingCode";"capital";"altSpellings";"region";"subregion";"languages";"translations";"latlng";"demonym";"landlocked";"borders";"area"
 ⋮
-"United Arab Emirates";"Dawlat al-ʾImārāt al-ʿArabiyyah al-Muttaḥidah";".ae";"AE";"784";"ARE";"AED";"971";"Abu Dhabi";"AE,UAE";"0";"Asia";"Western Asia";"Arabic";"ar";"Vereinigte Arabische Emirate,United Arab Emirates,Emiratos Árabes Unidos,Émirats Arabes Unis,Emirati Arabi Uniti,アラブ首長国連邦,Verenigde Arabische Emiraten";"8264070";"24,54";"Emirian";"OMN,SAU"
-"United Kingdom";"United Kingdom";".uk";"GB";"826";"GBR";"GBP";"44";"London";"GB,UK,Great Britain";"2.5";"Europe";"Northern Europe";"English";"en";"Vereinigtes Königreich,United Kingdom,Reino Unido,Royaume-Uni,Regno Unito,イギリス,Verenigd Koninkrijk";"63705000";"54,-2";"British";"IRL"
-"United States";"United States";".us";"US";"840";"USA";"USD,USN,USS";"1";"Washington D.C.";"US,USA,United States of America";"3.5";"Americas";"Northern America";"English";"en";"Vereinigte Staaten von Amerika,United States of America,Estados Unidos,États-Unis,Stati Uniti D'America,アメリカ合衆国,Verenigde Staten";"317101000";"38,-97";"American";"CAN,MEX"
-"United States Minor Outlying Islands";"United States Minor Outlying Islands";".us";"UM";"581";"UMI";"USD";"";"";"UM";"0";"Americas";"Northern America";"English";"en";"US-Amerikanische Hoheitsgebiete,United States Minor Outlying Islands,Islas menores de Estados Unidos,Dépendances américaines,Isole minori esterne degli Stati Uniti d'America,合衆国領有小離島,Kleine afgelegen eilanden van de Verenigde Staten";"-1";"";"American";""
-"United States Virgin Islands";"United States Virgin Islands";".vi";"VI";"850";"VIR";"USD";"1340";"Charlotte Amalie";"VI";"0.5";"Americas";"Caribbean";"English";"en";"Amerikanische Jungferninseln,Virgin Islands of the United States,Islas Vírgenes de los Estados Unidos,Îles Vierges américaines,Isole Vergini americane,アメリカ領ヴァージン諸島,Amerikaanse Maagdeneilanden";"106405";"18.35,-64.933333";"Virgin Islander";""
+"Aruba,Aruba,Aruba,Aruba,Aruba,Aruba";".aw";"AW";"533";"ABW";"ARU";"AWG";"297";"Oranjestad";"AW";"Americas";"Caribbean";"Dutch,Papiamento";"Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,アルバ,アルバ,Aruba,Aruba,Aruba,Aruba,Аруба,Аруба,Aruba,Aruba";"12.5,-69.96666666";"Aruban";"";"";"180"
+"Afghanistan,Islamic Republic of Afghanistan,جمهوری اسلامی افغانستان,افغانستان,د افغانستان اسلامي جمهوریت,افغانستان,Owganystan Yslam Respublikasy,Owganystan";".af";"AF";"004";"AFG";"AFG";"AFN";"93";"Kabul";"AF,Afġānistān";"Asia";"Southern Asia";"Dari,Pashto,Turkmen";"Islamic Republic of Afghanistan,Affganistan,Islamischen Republik Afghanistan,Afghanistan,République islamique d'Afghanistan,Afghanistan,Islamska Republika Afganistan,Afganistan,Repubblica islamica dell'Afghanistan,Afghanistan,アフガニスタン·イスラム共和国,アフガニスタン,Islamitische Republiek Afghanistan,Afghanistan,República Islâmica do Afeganistão,Afeganistão,Исламская Республика Афганистан,Афганистан,República Islámica de Afganistán,Afganistán";"33,65";"Afghan";"1";"IRN,PAK,TKM,UZB,TJK,CHN";"652230"
+"Angola,Republic of Angola,República de Angola,Angola";".ao";"AO";"024";"AGO";"ANG";"AOA";"244";"Luanda";"AO,República de Angola,ʁɛpublika de an'ɡɔla";"Africa";"Middle Africa";"Portuguese";"Republic of Angola,Angola,Republik Angola,Angola,République d'Angola,Angola,Republika Angola,Angola,Repubblica dell'Angola,Angola,アンゴラ共和国,アンゴラ,Republiek Angola,Angola,República de Angola,Angola,Республика Ангола,Ангола,República de Angola,Angola";"-12.5,18.5";"Angolan";"";"COG,COD,ZMB,NAM";"1246700"
 ⋮
 ```
+
 #####XML
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <countries>
-  <country name="Afghanistan" nativeName="Afġānistān" tld=".af" cca2="AF" ccn3="004" cca3="AFG" currency="AFN" callingCode="93" capital="Kabul" altSpellings="AF,Afġānistān" relevance="0" region="Asia" subregion="Southern Asia" language="Pashto,Dari" languagesCodes="ps,uz,tk" translations="Afghanistan,Afghanistan,Afganistán,Afganistán,Afghanistan,アフガニスタン,Afghanistan" population="25500100" latlng="33,65" demonym="Afghan" borders="IRN,PAK,TKM,UZB,TJK,CHN"/>
-  <country name="Åland Islands" nativeName="Åland" tld=".ax" cca2="AX" ccn3="248" cca3="ALA" currency="EUR" callingCode="358" capital="Mariehamn" altSpellings="AX,Aaland,Aland,Ahvenanmaa" relevance="0" region="Europe" subregion="Northern Europe" language="Swedish" languagesCodes="sv" translations="Åland,Åland Islands,Alandia,Aland,Isole Aland,オーランド諸島,Ålandeilanden" population="28502" latlng="60.116667,19.9" demonym="Ålandish" borders=""/>
-  <country name="Albania" nativeName="Shqipëria" tld=".al" cca2="AL" ccn3="008" cca3="ALB" currency="ALL" callingCode="355" capital="Tirana" altSpellings="AL,Shqipëri,Shqipëria,Shqipnia" relevance="0" region="Europe" subregion="Southern Europe" language="Albanian" languagesCodes="sq" translations="Albanien,Albania,Albania,Albanie,Albania,アルバニア,Albanië" population="2821977" latlng="41,20" demonym="Albanian" borders="MNE,GRC,MKD,KOS"/>
-  <country name="Algeria" nativeName="al-Jazāʼir" tld=".dz" cca2="DZ" ccn3="012" cca3="DZA" currency="DZD" callingCode="213" capital="Algiers" altSpellings="DZ,Dzayer,Algérie" relevance="0" region="Africa" subregion="Northern Africa" language="Arabic" languagesCodes="ar" translations="Algerien,Algeria,Argelia,Algérie,Algeria,アルジェリア,Algerije" population="37900000" latlng="28,3" demonym="Algerian" borders="TUN,LDY,NER,ESH,MRT,MLI,MAR"/>
+  <country name="Aruba,Aruba,Aruba,Aruba,Aruba,Aruba" tld=".aw" cca2="AW" ccn3="533" cca3="ABW" cioc="ARU" currency="AWG" callingCode="297" capital="Oranjestad" altSpellings="AW" region="Americas" subregion="Caribbean" languages="Dutch,Papiamento" translations="Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,Aruba,アルバ,アルバ,Aruba,Aruba,Aruba,Aruba,Аруба,Аруба,Aruba,Aruba" latlng="12.5,-69.96666666" demonym="Aruban" landlocked="" borders="" area="180"/>
+  <country name="Afghanistan,Islamic Republic of Afghanistan,جمهوری اسلامی افغانستان,افغانستان,د افغانستان اسلامي جمهوریت,افغانستان,Owganystan Yslam Respublikasy,Owganystan" tld=".af" cca2="AF" ccn3="004" cca3="AFG" cioc="AFG" currency="AFN" callingCode="93" capital="Kabul" altSpellings="AF,Afġānistān" region="Asia" subregion="Southern Asia" languages="Dari,Pashto,Turkmen" translations="Islamic Republic of Afghanistan,Affganistan,Islamischen Republik Afghanistan,Afghanistan,République islamique d'Afghanistan,Afghanistan,Islamska Republika Afganistan,Afganistan,Repubblica islamica dell'Afghanistan,Afghanistan,アフガニスタン·イスラム共和国,アフガニスタン,Islamitische Republiek Afghanistan,Afghanistan,República Islâmica do Afeganistão,Afeganistão,Исламская Республика Афганистан,Афганистан,República Islámica de Afganistán,Afganistán" latlng="33,65" demonym="Afghan" landlocked="1" borders="IRN,PAK,TKM,UZB,TJK,CHN" area="652230"/>
+  <country name="Angola,Republic of Angola,República de Angola,Angola" tld=".ao" cca2="AO" ccn3="024" cca3="AGO" cioc="ANG" currency="AOA" callingCode="244" capital="Luanda" altSpellings="AO,República de Angola,ʁɛpublika de an'ɡɔla" region="Africa" subregion="Middle Africa" languages="Portuguese" translations="Republic of Angola,Angola,Republik Angola,Angola,République d'Angola,Angola,Republika Angola,Angola,Repubblica dell'Angola,Angola,アンゴラ共和国,アンゴラ,Republiek Angola,Angola,República de Angola,Angola,Республика Ангола,Ангола,República de Angola,Angola" latlng="-12.5,18.5" demonym="Angolan" landlocked="" borders="COG,COD,ZMB,NAM" area="1246700"/>  
 ⋮
 <countries>
 ```
 
-#### About the relevance factor
-To understand the usefulness of the relevance parameter, please read this:
-- http://uxdesign.smashingmagazine.com/2011/11/10/redesigning-the-country-selector/
-- http://baymard.com/labs/country-selector
+#####YAML
+```yaml
+- { name: { common: Aruba, official: Aruba, native: { nld: { official: Aruba, common: Aruba }, pap: { official: Aruba, common: Aruba } } }, tld: [.aw], cca2: AW, ccn3: '533', cca3: ABW, cioc: ARU, currency: [AWG], callingCode: ['297'], capital: Oranjestad, altSpellings: [AW], region: Americas, subregion: Caribbean, languages: { nld: Dutch, pap: Papiamento }, translations: { deu: { official: Aruba, common: Aruba }, fra: { official: Aruba, common: Aruba }, hrv: { official: Aruba, common: Aruba }, ita: { official: Aruba, common: Aruba }, jpn: { official: アルバ, common: アルバ }, nld: { official: Aruba, common: Aruba }, por: { official: Aruba, common: Aruba }, rus: { official: Аруба, common: Аруба }, spa: { official: Aruba, common: Aruba } }, latlng: [12.5, -69.96666666], demonym: Aruban, landlocked: false, borders: {  }, area: 180 }
+- { name: { common: Afghanistan, official: 'Islamic Republic of Afghanistan', native: { prs: { official: 'جمهوری اسلامی افغانستان', common: افغانستان }, pus: { official: 'د افغانستان اسلامي جمهوریت', common: افغانستان }, tuk: { official: 'Owganystan Yslam Respublikasy', common: Owganystan } } }, tld: [.af], cca2: AF, ccn3: '004', cca3: AFG, cioc: AFG, currency: [AFN], callingCode: ['93'], capital: Kabul, altSpellings: [AF, Afġānistān], region: Asia, subregion: 'Southern Asia', languages: { prs: Dari, pus: Pashto, tuk: Turkmen }, translations: { cym: { official: 'Islamic Republic of Afghanistan', common: Affganistan }, deu: { official: 'Islamischen Republik Afghanistan', common: Afghanistan }, fra: { official: 'République islamique d''Afghanistan', common: Afghanistan }, hrv: { official: 'Islamska Republika Afganistan', common: Afganistan }, ita: { official: 'Repubblica islamica dell''Afghanistan', common: Afghanistan }, jpn: { official: アフガニスタン·イスラム共和国, common: アフガニスタン }, nld: { official: 'Islamitische Republiek Afghanistan', common: Afghanistan }, por: { official: 'República Islâmica do Afeganistão', common: Afeganistão }, rus: { official: 'Исламская Республика Афганистан', common: Афганистан }, spa: { official: 'República Islámica de Afganistán', common: Afganistán } }, latlng: [33, 65], demonym: Afghan, landlocked: true, borders: [IRN, PAK, TKM, UZB, TJK, CHN], area: 652230 }
+- { name: { common: Angola, official: 'Republic of Angola', native: { por: { official: 'República de Angola', common: Angola } } }, tld: [.ao], cca2: AO, ccn3: '024', cca3: AGO, cioc: ANG, currency: [AOA], callingCode: ['244'], capital: Luanda, altSpellings: [AO, 'República de Angola', 'ʁɛpublika de an''ɡɔla'], region: Africa, subregion: 'Middle Africa', languages: { por: Portuguese }, translations: { cym: { official: 'Republic of Angola', common: Angola }, deu: { official: 'Republik Angola', common: Angola }, fra: { official: 'République d''Angola', common: Angola }, hrv: { official: 'Republika Angola', common: Angola }, ita: { official: 'Repubblica dell''Angola', common: Angola }, jpn: { official: アンゴラ共和国, common: アンゴラ }, nld: { official: 'Republiek Angola', common: Angola }, por: { official: 'República de Angola', common: Angola }, rus: { official: 'Республика Ангола', common: Ангола }, spa: { official: 'República de Angola', common: Angola } }, latlng: [-12.5, 18.5], demonym: Angolan, landlocked: false, borders: [COG, COD, ZMB, NAM], area: 1246700 }
+```
+
+## Customising the output
+The data files provided in the `dist` directory include all available fields, but is also possible to build a custom version of the data with certain fields excluded.
+
+To do this, you will first need a working PHP installation, [composer](https://getcomposer.org) and a local copy of this repository. Once you have these, open a terminal in your local version of this project's root directory and run this command to install the necessary dependencies:
+
+```sh
+composer install
+```
+
+After this finishes, run the following command (here we will exclude the `tld` field from the output, but you can exclude any field you want):
+
+```sh
+php countries.php convert --exclude-field=tld
+```
+
+You can also exclude multiple fields:
+
+```sh
+php countries.php convert --exclude-field=tld --exclude-field=cca2
+
+# Or using the shorter `-x` syntax:
+php countries.php convert -x tld -x cca2
+```
+
+## Showcase
+Projects using this dataset:
+
+- [REST Countries](http://restcountries.eu/)
+- [International Telephone Input](http://jackocnr.com/intl-tel-input.html)
+- [Telephone JS](https://github.com/lukaswhite/telephones-js)
+- [Countries of the World](http://countries.petethompson.net/)
+- [Country Prefix Codes For Go](https://github.com/relops/prefixes)
+- [Ask the NSA](http://askthensa.com/)
+- [Country Info Mapper in Go](https://github.com/pirsquare/country-mapper)
+- [Visa requirements in JSON](https://github.com/herrniemand/visas)
+
+## How to contribute?
+Please refer to [CONTRIBUTING](https://github.com/mledoze/countries/blob/master/CONTRIBUTING.md).
 
 ## To do
- - add the official name of the country in english and in its native language
  - add the type of the country (country, sovereign state, public body, territory, etc.)
- - add regions, provinces and cities
+ - add missing translations
 
 ## Sources
 http://www.currency-iso.org/ for currency codes.
 
-Relevance are inspired by https://github.com/JamieAppleseed/selectToAutocomplete.
-
 Region and subregion are taken from https://github.com/hexorx/countries.
+
+GeoJSON outlines come from http://thematicmapping.org/downloads/world_borders.php.
 
 The rest comes from Wikipedia.
 
@@ -135,13 +181,10 @@ Thanks to:
  - @Glazz for his help with country calling codes
  - @hexorx for his work (https://github.com/hexorx/countries)
  - @frederik-jacques for the capital cities
- - @fayer for the population, geolocation and demonym data
+ - @fayer for the population, geolocation, demonym and area data
  - @ancosen for his help with the borders data
+ - @herrniemand for country names and various fixes
  - all the contributors: https://github.com/mledoze/countries/graphs/contributors
 
 ## License
-This dataset is made available under the Open Database License:
-http://opendatacommons.org/licenses/odbl/1.0/
-
-Any rights in individual contents of the database are licensed under the Database Contents License:
-http://opendatacommons.org/licenses/dbcl/1.0/
+See [LICENSE](https://github.com/mledoze/countries/blob/master/LICENSE).
